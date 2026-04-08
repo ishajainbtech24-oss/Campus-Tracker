@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard">
+    <h2>🏢 Office Counter Availability</h2>
+    <p>Live status of all campus office counters. Updated in real time.</p>
+
+    <div class="counter-legend">
+        <span><span class="status-dot open"></span> Open — Walk in freely</span>
+        <span><span class="status-dot busy"></span> Busy — Expect waiting time</span>
+        <span><span class="status-dot closed"></span> Closed — Come back later</span>
+    </div>
+
+    <div class="counters-grid">
+        {% for counter in counters %}
+        <div class="counter-card {{ counter[2] }}">
+            <div class="counter-top">
+                <div class="counter-icon">
+                    {% if counter[2] == 'open' %}🟢
+                    {% elif counter[2] == 'busy' %}🟡
+                    {% else %}🔴{% endif %}
+                </div>
+                <div class="counter-status-badge {{ counter[2] }}">
+                    {{ counter[2] | capitalize }}
+                </div>
+            </div>
+
+            <h3 class="counter-name">{{ counter[1] }}</h3>
+
+            <div class="counter-queue">
+                <div class="queue-bar-bg">
+                    {% set bar_width = counter[3] * 10 %}
+                    {% if bar_width > 100 %}{% set bar_width = 100 %}{% endif %}
+                    <div class="queue-bar-fill {{ counter[2] }}"
+                        style="width: {{ bar_width }}%">
+                    </div>
+                </div>
+                <div class="queue-text">
+                    <span>Queue</span>
+                    <strong>{{ counter[3] }} people waiting</strong>
+                </div>
+            </div>
+
+            <div class="counter-advice">
+                {% if counter[2] == 'open' and counter[3] <= 3 %}
+                    ✅ Great time to visit!
+                {% elif counter[2] == 'open' and counter[3] <= 6 %}
+                    ⏳ Short wait expected
+                {% elif counter[2] == 'busy' %}
+                    ⚠️ Long wait — come back later
+                {% else %}
+                    ❌ Counter is closed today
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="counter-footer">
+        <p>🔄 Page refreshes every 60 seconds</p>
+        <a href="/dashboard" class="btn btn-outline">← Back to Dashboard</a>
+    </div>
+</div>
+
+<script>
+    setTimeout(() => location.reload(), 60000);
+</script>
+
+{% endblock %}

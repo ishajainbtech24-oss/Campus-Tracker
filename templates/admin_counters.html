@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard">
+    <h2>🏢 Manage Office Counters</h2>
+    <p>Update counter status and queue length in real time.</p>
+
+    <div class="counters-grid">
+        {% for counter in counters %}
+        <div class="counter-card {{ counter[3] }}">
+            <h3 class="counter-name">{{ counter[1] }}</h3>
+            <form method="POST">
+                <input type="hidden" name="counter_id" value="{{ counter[0] }}">
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status">
+                        <option value="open"   {% if counter[3]=='open'   %}selected{% endif %}>Open</option>
+                        <option value="busy"   {% if counter[3]=='busy'   %}selected{% endif %}>Busy</option>
+                        <option value="closed" {% if counter[3]=='closed' %}selected{% endif %}>Closed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Queue Length</label>
+                    <input type="number" name="queue_length"
+                        value="{{ counter[4] }}" min="0" max="50">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">Update</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div style="margin-top:20px;">
+        <a href="/admin" class="btn btn-outline">← Back to Dashboard</a>
+    </div>
+</div>
+
+{% endblock %}

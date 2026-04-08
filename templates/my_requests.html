@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard">
+    <h2>My Requests</h2>
+    <p>Track all your submitted requests below.</p>
+
+    {% if requests %}
+    <table class="requests-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Submitted</th>
+                <th>Est. Completion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in requests %}
+            <tr>
+                <td>{{ r[0] }}</td>
+                <td>{{ r[1] | capitalize }}</td>
+                <td>{{ r[2][:50] }}...</td>
+                <td><span class="priority-badge {{ r[4] }}">{{ r[4] | capitalize }}</span></td>
+                <td><span class="status-badge {{ r[3] }}">{{ r[3] | replace('_', ' ') | capitalize }}</span></td>
+                <td>{{ r[5].strftime('%d %b %Y') }}</td>
+                <td>{{ r[6].strftime('%d %b %Y') if r[6] else 'Not set' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>You have no requests yet.</p>
+        <a href="{{ url_for('submit_issue') }}" class="btn btn-primary">Submit your first request</a>
+    </div>
+    {% endif %}
+
+    <div style="margin-top: 20px;">
+        <a href="{{ url_for('submit_issue') }}" class="btn btn-primary">+ New Request</a>
+        <a href="{{ url_for('student_dashboard') }}" class="btn btn-outline" style="margin-left:10px;">Back to Dashboard</a>
+    </div>
+</div>
+
+{% endblock %}

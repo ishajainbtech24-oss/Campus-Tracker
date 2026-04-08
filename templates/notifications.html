@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard">
+    <h2>🔔 My Notifications</h2>
+    <p>Updates from admin on your submitted requests.</p>
+
+    {% if notifs %}
+    <div class="notif-list">
+        {% for n in notifs %}
+        <div class="notif-card">
+            <div class="notif-icon">📩</div>
+            <div class="notif-body">
+                <p class="notif-message">{{ n[1] }}</p>
+                <span class="notif-time">{{ n[2].strftime('%d %b %Y %I:%M %p') }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>No notifications yet.</p>
+        <a href="/dashboard" class="btn btn-outline">Back to Dashboard</a>
+    </div>
+    {% endif %}
+
+    <div style="margin-top:20px;">
+        <a href="/dashboard" class="btn btn-outline">← Back to Dashboard</a>
+    </div>
+</div>
+
+{% endblock %}

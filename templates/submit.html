@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="form-container" style="max-width: 600px;">
+    <h2>Submit a Request</h2>
+    <form method="POST" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label>Request Type</label>
+            <select name="request_type" id="request_type" onchange="toggleFields()">
+                <option value="maintenance">Maintenance Issue</option>
+                <option value="service">Office Service Request</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Category</label>
+            <select name="category">
+                <option value="Plumbing">Plumbing</option>
+                <option value="Electrical">Electrical</option>
+                <option value="Cleaning">Cleaning</option>
+                <option value="Internet">Internet / IT</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Certificate">Certificate Request</option>
+                <option value="ID Card">ID Card</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <textarea name="description" rows="4" 
+                placeholder="Describe the issue or service you need..." 
+                required style="width:100%; padding:10px; border:1px solid #ddd; 
+                border-radius:6px; font-size:14px; resize:vertical;"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Location / Department</label>
+            <input type="text" name="location" 
+                placeholder="e.g. Block A Room 204 or Admin Office" required>
+        </div>
+
+        <div class="form-group">
+            <label>Priority</label>
+            <select name="priority">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Attach Photo (optional)</label>
+            <input type="file" name="photo" accept="image/*" 
+                style="font-size:14px;">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;">
+            Submit Request
+        </button>
+        <p class="form-footer">
+            <a href="{{ url_for('student_dashboard') }}">← Back to Dashboard</a>
+        </p>
+    </form>
+</div>
+
+<script>
+function toggleFields() {
+    const type = document.getElementById('request_type').value;
+}
+</script>
+
+{% endblock %}

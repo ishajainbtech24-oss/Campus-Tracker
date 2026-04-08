@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="hero">
+    <h1>Unified Campus Issue & Service Tracker</h1>
+    <p>Report maintenance issues and office service requests in one place.</p>
+    <div class="hero-buttons">
+        <a href="{{ url_for('register') }}" class="btn btn-primary">Get Started</a>
+        <a href="{{ url_for('login') }}" class="btn btn-outline">Login</a>
+    </div>
+</div>
+
+<div class="features">
+    <div class="feature-card">
+        <h3>📋 Submit Issues</h3>
+        <p>Report campus maintenance problems or request office services easily.</p>
+    </div>
+    <div class="feature-card">
+        <h3>🔄 Track Status</h3>
+        <p>Get real-time updates on your request with estimated completion time.</p>
+    </div>
+    <div class="feature-card">
+        <h3>🏢 Counter Availability</h3>
+        <p>Check office counter status before visiting to avoid long queues.</p>
+    </div>
+</div>
+
+{% endblock %}

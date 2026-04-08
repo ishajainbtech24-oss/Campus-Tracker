@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="form-container" style="max-width:650px;">
+    <h2>Manage Request #{{ r[0] }}</h2>
+
+    <div class="request-detail">
+        <div class="detail-row">
+            <span class="detail-label">Student</span>
+            <span>{{ r[1] }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Type</span>
+            <span>{{ r[2] | capitalize }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Description</span>
+            <span>{{ r[3] }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Priority</span>
+            <span class="priority-badge {{ r[4] }}">{{ r[4] | capitalize }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Current Status</span>
+            <span class="status-badge {{ r[5] }}">{{ r[5] | replace('_',' ') | capitalize }}</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Submitted</span>
+            <span>{{ r[6].strftime('%d %b %Y %I:%M %p') }}</span>
+        </div>
+    </div>
+
+    <!-- Update Form -->
+    <form method="POST" style="margin-top:24px;">
+        <div class="form-group">
+            <label>Update Status</label>
+            <select name="status">
+                <option value="pending" {% if r[5]=='pending' %}selected{% endif %}>Pending</option>
+                <option value="in_progress" {% if r[5]=='in_progress' %}selected{% endif %}>In Progress</option>
+                <option value="resolved" {% if r[5]=='resolved' %}selected{% endif %}>Resolved</option>
+                <option value="rejected" {% if r[5]=='rejected' %}selected{% endif %}>Rejected</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Estimated Completion Date</label>
+            <input type="datetime-local" name="estimated_completion"
+                value="{{ r[7].strftime('%Y-%m-%dT%H:%M') if r[7] else '' }}">
+        </div>
+        <div class="form-group">
+            <label>Admin Notes (sent as notification)</label>
+            <textarea name="notes" rows="3" placeholder="Add a note for the student..."
+                style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:14px;"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Update Request</button>
+        <p class="form-footer"><a href="/admin">← Back to Dashboard</a></p>
+    </form>
+</div>
+
+{% endblock %}

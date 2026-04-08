@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard">
+    <h2>📊 Reports & Analytics</h2>
+    <p>Overview of all campus requests.</p>
+
+    <div class="reports-grid">
+
+        <!-- By Status -->
+        <div class="report-card">
+            <h3>Requests by Status</h3>
+            <canvas id="statusChart"></canvas>
+        </div>
+
+        <!-- By Type -->
+        <div class="report-card">
+            <h3>Requests by Type</h3>
+            <canvas id="typeChart"></canvas>
+        </div>
+
+        <!-- By Priority -->
+        <div class="report-card">
+            <h3>Requests by Priority</h3>
+            <canvas id="priorityChart"></canvas>
+        </div>
+
+        <!-- By Day -->
+        <div class="report-card">
+            <h3>Requests Last 7 Days</h3>
+            <canvas id="dayChart"></canvas>
+        </div>
+
+    </div>
+
+    <div style="margin-top:20px;">
+        <a href="/admin" class="btn btn-outline">← Back to Dashboard</a>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+    const statusData = {{ by_status | tojson }};
+    const typeData   = {{ by_type   | tojson }};
+    const priData    = {{ by_priority | tojson }};
+    const dayData    = {{ by_day    | tojson }};
+
+    function makeChart(id, labels, data, type, colors) {
+        new Chart(document.getElementById(id), {
+            type: type,
+            data: {
+                labels: labels,
+                datasets: [{ data: data, backgroundColor: colors, borderRadius: 6 }]
+            },
+            options: {
+                plugins: { legend: { position: 'bottom' } },
+                responsive: true
+            }
+        });
+    }
+
+    makeChart('statusChart',
+        statusData.map(r => r[0]),
+        statusData.map(r => r[1]),
+        'doughnut',
+        ['#ffc107','#17a2b8','#28a745','#dc3545']
+    );
+
+    makeChart('typeChart',
+        typeData.map(r => r[0]),
+        typeData.map(r => r[1]),
+        'pie',
+        ['#1a73e8','#34a853']
+    );
+
+    makeChart('priorityChart',
+        priData.map(r => r[0]),
+        priData.map(r => r[1]),
+        'bar',
+        ['#28a745','#ffc107','#dc3545']
+    );
+
+    makeChart('dayChart',
+        dayData.map(r => r[0]),
+        dayData.map(r => r[1]),
+        'line',
+        ['#1a73e8']
+    );
+</script>
+
+{% endblock %}

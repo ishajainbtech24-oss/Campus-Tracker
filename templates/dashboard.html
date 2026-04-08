@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard">
+    <h2>Welcome, {{ name }}! 👋</h2>
+    <p>What would you like to do today?</p>
+
+    <div class="dashboard-cards">
+        <div class="dash-card">
+            <h3>🔧 Report an Issue</h3>
+            <p>Submit a new maintenance or service request</p>
+            <a href="/submit" class="btn btn-primary">Submit Request</a>
+        </div>
+        <div class="dash-card">
+            <h3>📄 My Requests</h3>
+            <p>View and track all your submitted requests</p>
+            <a href="/my-requests" class="btn btn-outline">View Requests</a>
+        </div>
+        <div class="dash-card">
+            <h3>🏢 Office Counters</h3>
+            <p>Check counter availability before visiting</p>
+            <a href="/counters" class="btn btn-outline">Check Now</a>
+        </div>
+        <div class="dash-card">
+            <h3>🔔 Notifications</h3>
+            <p>View updates from admin on your requests</p>
+            <a href="/notifications" class="btn btn-outline">View Notifications</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="dashboard">
+    <h2>Admin Dashboard 🛠️</h2>
+    <!-- Quick Links -->
+<div class="dashboard-cards" style="margin-bottom: 24px;">
+    <div class="dash-card">
+        <h3>📊 Reports</h3>
+        <p>View request trends and analytics</p>
+        <a href="/admin/reports" class="btn btn-primary">View Reports</a>
+    </div>
+    <div class="dash-card">
+        <h3>🏢 Manage Counters</h3>
+        <p>Update office counter status and queue</p>
+        <a href="/admin/counters" class="btn btn-outline">Manage Counters</a>
+    </div>
+    <div class="dash-card">
+        <h3>📋 All Requests</h3>
+        <p>View and manage all student requests</p>
+        <a href="/admin" class="btn btn-outline">View All</a>
+    </div>
+</div>
+    <p>Manage all campus requests from here.</p>
+
+    <!-- Stats Row -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <h3>{{ stats.total }}</h3>
+            <p>Total Requests</p>
+        </div>
+        <div class="stat-card pending">
+            <h3>{{ stats.pending }}</h3>
+            <p>Pending</p>
+        </div>
+        <div class="stat-card in-progress">
+            <h3>{{ stats.in_progress }}</h3>
+            <p>In Progress</p>
+        </div>
+        <div class="stat-card resolved">
+            <h3>{{ stats.resolved }}</h3>
+            <p>Resolved</p>
+        </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <a href="/admin" class="filter-btn {% if not request.args.get('status') %}active{% endif %}">All</a>
+        <a href="/admin?status=pending" class="filter-btn {% if request.args.get('status') == 'pending' %}active{% endif %}">Pending</a>
+        <a href="/admin?status=in_progress" class="filter-btn {% if request.args.get('status') == 'in_progress' %}active{% endif %}">In Progress</a>
+        <a href="/admin?status=resolved" class="filter-btn {% if request.args.get('status') == 'resolved' %}active{% endif %}">Resolved</a>
+    </div>
+
+    <!-- Requests Table -->
+    {% if requests %}
+    <table class="requests-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Student</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Submitted</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in requests %}
+            <tr>
+                <td>{{ r[0] }}</td>
+                <td>{{ r[1] }}</td>
+                <td>{{ r[2] | capitalize }}</td>
+                <td>{{ r[3][:40] }}...</td>
+                <td><span class="priority-badge {{ r[4] }}">{{ r[4] | capitalize }}</span></td>
+                <td><span class="status-badge {{ r[5] }}">{{ r[5] | replace('_',' ') | capitalize }}</span></td>
+                <td>{{ r[6].strftime('%d %b %Y') }}</td>
+                <td><a href="/admin/request/{{ r[0] }}" class="btn btn-primary" style="padding:6px 12px;font-size:12px;">Manage</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>No requests found.</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
