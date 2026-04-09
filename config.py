@@ -1,4 +1,7 @@
-MYSQL_HOST = 'localhost'
-MYSQL_USER = 'root'
-MYSQL_PASSWORD = '2424'  # ← change this
-MYSQL_DB = 'campus_tracker'
+import os
+
+MYSQL_HOST     = os.environ.get('MYSQL_HOST', 'localhost')
+MYSQL_USER     = os.environ.get('MYSQL_USER', 'root')
+MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD', '2424')
+MYSQL_DB       = os.environ.get('MYSQL_DB', 'campus_tracker')
+MYSQL_PORT     = int(os.environ.get('MYSQL_PORT', 3306))
