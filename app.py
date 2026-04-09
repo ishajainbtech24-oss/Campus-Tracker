@@ -1,6 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-import pymysql
-pymysql.install_as_MySQLdb()
 from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
 import config
@@ -375,4 +373,4 @@ def admin_counters():
     return render_template('admin_counters.html', counters=counters)
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    app.run(debug=True)
